@@ -18,7 +18,7 @@ describe('TodoDataService', () => {
   describe('#getAllTodos()', () => {
 
     it('should return an empty array by default', inject([TodoDataService], (service: TodoDataService) => {
-      expect(service.getAllTodos()).toEqual([]);
+      expect(service.getTodos()).toEqual([]);
     }));
 
     it('should return all todos', inject([TodoDataService], (service: TodoDataService) => {
@@ -26,7 +26,7 @@ describe('TodoDataService', () => {
       let todo2 = new Todo({title: 'Hello 2', complete: true});
       service.addTodo(todo1);
       service.addTodo(todo2);
-      expect(service.getAllTodos()).toEqual([todo1, todo2]);
+      expect(service.getTodos()).toEqual([todo1, todo2]);
     }));
   });
 
@@ -46,9 +46,9 @@ describe('TodoDataService', () => {
       let todo2 = new Todo({title: 'Hello 2', complete: true});
       service.addTodo(todo1);
       service.addTodo(todo2);
-      expect(service.getAllTodos()).toEqual([todo1, todo2]);
+      expect(service.getTodos()).toEqual([todo1, todo2]);
       service.deleteTodoById(3);
-      expect(service.getAllTodos()).toEqual([todo1, todo2]);
+      expect(service.getTodos()).toEqual([todo1, todo2]);
     }));
   });
 

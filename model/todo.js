@@ -5,8 +5,8 @@ const mongoose = require('mongoose');
 const Todo = new mongoose.Schema({
     name: {type: String},
     description: {type: String},
-    added: {type: Date},
-    goal: {type: Date},
+    added: {type: Number},
+    goal: {type: Number},
     level: {type: Number},
     completed: {type: Boolean, default: false}
 });

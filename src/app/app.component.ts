@@ -1,35 +1,31 @@
-import {Component} from '@angular/core';
-import {Todo} from './todo';
-import {TodoDataService} from './todo-data.service';
+import { Component, OnInit } from '@angular/core';
+import { Todo } from './todo';
+import { TodoDataService } from './todo-data.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
-  providers: [TodoDataService]
+  providers: [TodoDataService],
+  styles: ['.error {color: red;}']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  
+  errorMessage: string;
+  todos: Todo[];
+  mode = 'Observable';
 
-  newTodo: Todo = new Todo();
+  constructor(private todoDataService: TodoDataService) { }
 
-  constructor(private todoDataService: TodoDataService) {
+  ngOnInit() { this.getTodos(); }
+
+  getTodos() {
+    this.todoDataService.getTodos()
+                          .subscribe(
+                            todos => this.todos = todos,
+                            error => this.errorMessage = <any>error);
+                          
   }
 
-  addTodo() {
-    this.todoDataService.addTodo(this.newTodo);
-    this.newTodo = new Todo();
-  }
-
-  toggleTodoComplete(todo) {
-    this.todoDataService.toggleTodoComplete(todo);
-  }
-
-  removeTodo(todo) {
-    this.todoDataService.deleteTodoById(todo.id);
-  }
-
-  get todos() {
-    return this.todoDataService.getAllTodos();
-  }
   
 }
