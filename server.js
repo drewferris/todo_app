@@ -1,6 +1,7 @@
 'use strict';
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const mongoose = require('mongoose');
 const todoRouter = require('./routes/todo-routes');
@@ -10,6 +11,8 @@ const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 mongoose.connect(dbPort);
 
 app.use(express.static(__dirname + '/build'));
+
+app.use(cors());
 
 app.use('/todo', todoRouter);
 
