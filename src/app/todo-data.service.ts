@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+
 import {Todo} from './todo';
 
 @Injectable()
 export class TodoDataService {
+  private _todoUrl = 'localhost:3000/todo';
 
   lastId: number = 0;
 
   todos: Todo[] = [];
 
-  constructor() { }
+  // constructor() { }
+
+  constructor(private _http: Http) { }
 
   addTodo(todo: Todo): TodoDataService {
     if(!todo.id) {
@@ -33,8 +38,13 @@ export class TodoDataService {
     return todo;
   }
 
+  // getAllTodos(): Todo[] {
+  //   return this.todos;
+  // }
+
   getAllTodos(): Todo[] {
-    return this.todos;
+    return this._http.get(this._todoUrl)
+          .map((response: Response) => Todo[] Response.json())
   }
 
   getTodoById(id: number): Todo {
