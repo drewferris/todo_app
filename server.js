@@ -9,7 +9,7 @@ const dbPort = process.env.MONGOLAB_URI || 'mongodb://localhost/dev_db';
 
 mongoose.connect(dbPort);
 
-app.use(express.static(_dirname + '/build'));
+app.use(express.static(__dirname + '/build'));
 
 app.use('/todo', todoRouter);
 
