@@ -1,0 +1,8 @@
+ul li:not(:first-child) {
+    list-style: none;
+}
+
+.red {
+    color: red;
+}
+

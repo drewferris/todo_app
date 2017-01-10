@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Headers, ResponseOptions } from '@angular/http';
+import { Headers, ResponseOptions, RequestOptions } from '@angular/http';
 
 import { Todo}  from './todo';
 import { Observable } from 'rxjs/Observable';
@@ -16,36 +16,7 @@ export class TodoDataService {
 
   todos: Todo[] = [];
 
-  // constructor() { }
-
   constructor(private _http: Http) { }
-
-  addTodo(todo: Todo): TodoDataService {
-    if(!todo.id) {
-      todo.id = ++this.lastId;
-    }
-    this.todos.push(todo);
-    return this;
-  }
-
-  deleteTodoById(id: number): TodoDataService {
-    this.todos = this.todos
-      .filter(todo => todo.id !== id);
-      return this;
-  }
-
-  updateTodoById(id: number, values: Object ={}): Todo {
-    let todo = this.getTodoById(id);
-    if (!todo) {
-      return null;
-    }
-    Object.assign(todo, values);
-    return todo;
-  }
-
-  // getAllTodos(): Todo[] {
-  //   return this.todos;
-  // }
 
   getTodos(): Observable<Todo[]> {
     return this._http.get(this._todoUrl)
@@ -54,23 +25,12 @@ export class TodoDataService {
             .catch(this.handleError);
   }
 
-  getTodoById(id: number): Todo {
-    return this.todos
-      .filter(todo => todo.id === id)
-      .pop();
-  }
+  deleteTodo(todo) {
+    return this._http.delete(this._todoUrl + '/' + todo._id)
+            .map((response: Response) => <Todo[]> response.json())
+            .do(data => console.log('All: ' +  JSON.stringify(data)))
+    }
 
-  toggleTodoComplete(todo: Todo){
-    let updatedTodo = this.updateTodoById(todo.id, {
-      complete: !todo.complete
-    });
-    return updatedTodo;
-  }
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body.data || { };
-  } 
 
   private handleError(error: Response | any) {
     let errMsg: string;

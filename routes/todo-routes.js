@@ -28,3 +28,21 @@ router.post('/', bodyParser, (req, res, next) => {
         res.json(data);
     });
 });
+
+router.put('/', bodyParser, (req, res, next) => {
+  Todo.findOneAndUpdate({_id: req.body._id}, req.body, (err) => {
+    if(err) return next(err);
+    let message = 'successfully updated';
+    res.json({message});
+  });
+});
+
+router.delete('/:id', (req, res, next) => {
+  let _id = req.params.id;
+  Todo.findOneAndRemove({_id}, (err) => {
+    if(err) return next(err);
+    let message = 'successfully deleted';
+    res.json({message});
+  });
+});
+
